@@ -73,7 +73,9 @@ export default function RoundPage({
           const reviews = reviewByApplicationId[application.id] ?? [];
           const aggregatedScore = reviews.reduce(
             (sum, x) =>
-              sum + x.evaluations.reduce((_sum, y) => _sum + y.score, 0),
+              sum +
+              x.evaluations.reduce((_sum, y) => _sum + y.score, 0) /
+                x.evaluations.length,
             0,
           );
           return (
@@ -88,7 +90,10 @@ export default function RoundPage({
               <ApplicationStatusBadge status={application.status} />
               <div className="flex-shrink-0 text-center text-sm">
                 <div className="">
-                  Score: {reviews.length ? aggregatedScore / reviews.length : 0}
+                  Score:{" "}
+                  {reviews.length
+                    ? Math.round((aggregatedScore / reviews.length) * 10)
+                    : 0}
                 </div>
                 <div className="">{reviews.length} reviews</div>
               </div>
