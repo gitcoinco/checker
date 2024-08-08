@@ -66,22 +66,22 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         try {
-          const siwe = new SiweMessage(
-            JSON.parse(credentials?.message || "{}"),
-          );
-          const nextAuthUrl = new URL(env.NEXTAUTH_URL);
+          // const siwe = new SiweMessage(
+          //   JSON.parse(credentials?.message || "{}"),
+          // );
+          // const nextAuthUrl = new URL(env.NEXTAUTH_URL);
 
-          const result = await siwe.verify({
-            signature: credentials?.signature || "",
-            domain: nextAuthUrl.host,
-            nonce: await getCsrfToken({ req }),
-          });
+          // const result = await siwe.verify({
+          //   signature: credentials?.signature || "",
+          //   domain: nextAuthUrl.host,
+          //   nonce: await getCsrfToken({ req }),
+          // });
 
-          if (result.success) {
-            return {
-              id: siwe.address,
-            };
-          }
+          // if (result.success) {
+          //   return {
+          //     id: siwe.address,
+          //   };
+          // }
           return null;
         } catch (e) {
           return null;
