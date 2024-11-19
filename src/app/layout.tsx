@@ -1,28 +1,39 @@
-import "~/styles/globals.css";
-import "@allo-team/kit/styles.css";
+import type { Metadata } from "next";
+import localFont from "next/font/local";
+import "./globals.css";
+import { Providers } from "./providers/Providers";
 
-import { GeistSans } from "geist/font/sans";
-import { type Metadata } from "next";
-import { ApiProvider, Web3Provider } from "@allo-team/kit";
+const geistSans = localFont({
+  src: "./fonts/GeistVF.woff",
+  variable: "--font-geist-sans",
+  weight: "100 900",
+});
+const geistMono = localFont({
+  src: "./fonts/GeistMonoVF.woff",
+  variable: "--font-geist-mono",
+  weight: "100 900",
+});
 
 export const metadata: Metadata = {
-  title: "Checker",
-  description: "...",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  title: "Checker - Gitcoin",
+  description: "Use the power of LLMs to empower your grants program",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{ children: React.ReactNode }>) {
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
-    <html lang="en" className={`${GeistSans.variable}`}>
-      <body>
-        <main className="mx-auto max-w-screen-md p-2">
-          <ApiProvider>
-            <Web3Provider>{children}</Web3Provider>
-          </ApiProvider>
-        </main>
+    <html lang="en">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <Providers>
+          {children}
+        </Providers>
       </body>
+
     </html>
   );
 }
