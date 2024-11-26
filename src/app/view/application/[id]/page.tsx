@@ -14,11 +14,15 @@ export default async function Page({
 
   const [chainId, poolId, applicationId] = id.split("-");
 
+  if (!chainId || !poolId || !applicationId) {
+    return <div>Invalid application ID</div>;
+  }
+
   return (
     <div>
       <ApplicationView
         applicationId={applicationId}
-        chainId={parseInt(chainId, 10)} // Convert to number
+        chainId={parseInt(chainId, 10)}
         poolId={poolId}
       />
     </div>
