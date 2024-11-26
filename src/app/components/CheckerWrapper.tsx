@@ -1,6 +1,10 @@
 "use client";
 
-import { Checker } from "gitcoin-ui";
+import dynamic from "next/dynamic";
+
+const Checker = dynamic(() => import("gitcoin-ui").then(mod => mod.Checker), {
+  ssr: false,
+});
 
 export default function CheckerWrapper() {
   return (
