@@ -1,5 +1,6 @@
 "use client";
 
+import useIsMounted from "@/app/hooks/useIsMounted";
 import dynamic from "next/dynamic";
 import { useAccount } from "wagmi";
 
@@ -16,6 +17,11 @@ export default function Review({
 }){
 
   const { address } = useAccount();
+    const isMounted = useIsMounted();
+
+  if (!isMounted) {
+    return <div>Loading...</div>;
+  }
   if (!address) {
     return <div>Connect your wallet</div>;
   }
