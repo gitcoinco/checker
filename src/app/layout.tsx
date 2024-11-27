@@ -3,7 +3,6 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Providers } from "./providers/Providers";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-// import { CheckerIcon } from "gitcoin-ui";
 
 import dynamic from "next/dynamic";
 
