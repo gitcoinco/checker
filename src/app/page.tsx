@@ -1,9 +1,7 @@
-import CheckerWrapper from "./components/CheckerWrapper";
-
 export default function Home() {
   return (
     <div>
-      <CheckerWrapper />
+      <h1>Welcome to checker</h1>
     </div>
   );
 }
