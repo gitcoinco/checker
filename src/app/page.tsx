@@ -14,10 +14,12 @@ export default function Home() {
             <div className="space-y-3">
               <RouteCard 
                 path="/review/[chain-id]-[pool-id]"
+                exampleLink="/review/42161-609"
                 description="Review details for a specific pool on a given chain"
               />
               <RouteCard 
                 path="/view/application/[chain-id]-[pool-id]-[application-id]"
+                exampleLink="/view/application/42161-609-0"
                 description="View application details for a specific pool and chain"
               />
             </div>
