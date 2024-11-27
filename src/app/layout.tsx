@@ -3,11 +3,14 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Providers } from "./providers/Providers";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-// import { CheckerIcon } from "gitcoin-ui";
 
 import dynamic from "next/dynamic";
 
 const Navbar = dynamic(() => import("gitcoin-ui").then(mod => mod.Navbar), {
+  ssr: false,
+});
+
+const CheckerIcon = dynamic(() => import("gitcoin-ui").then(mod => mod.CheckerIcon), {
   ssr: false,
 });
 
@@ -34,7 +37,7 @@ export default function RootLayout({
         <Providers>
           <Navbar
             text="Checker"
-            // secondaryLogo={CheckerIcon}
+            secondaryLogo={CheckerIcon as any}
             primaryLogoLink="/"
             secondaryLogoLink="/"
             children={
