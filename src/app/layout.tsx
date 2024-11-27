@@ -11,6 +11,10 @@ const Navbar = dynamic(() => import("gitcoin-ui").then(mod => mod.Navbar), {
   ssr: false,
 });
 
+const CheckerIcon = dynamic(() => import("gitcoin-ui").then(mod => mod.CheckerIcon), {
+  ssr: false,
+});
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -34,7 +38,7 @@ export default function RootLayout({
         <Providers>
           <Navbar
             text="Checker"
-            // secondaryLogo={CheckerIcon}
+            secondaryLogo={CheckerIcon as any}
             primaryLogoLink="/"
             secondaryLogoLink="/"
             children={
