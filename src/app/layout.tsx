@@ -35,7 +35,8 @@ export default function RootLayout({
           <Navbar
             text="Checker"
             // secondaryLogo={CheckerIcon}
-            secondaryLogoLink="#"
+            primaryLogoLink="/"
+            secondaryLogoLink="/"
             children={
               <ConnectButton />
             }
