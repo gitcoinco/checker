@@ -63,7 +63,6 @@ export const reviewRecipients = async (args: {
         args: [rows, totalApplications],
       });
 
-      // todo: remove emits to simplify everything
       emit("transaction", txResult);
 
       if (txResult.type === "error") {
