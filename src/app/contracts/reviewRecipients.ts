@@ -1,69 +1,96 @@
+import { EventEmitter } from 'events';
 import { DirectGrantsLiteStrategy, DonationVotingMerkleDistributionDirectTransferStrategyAbi, DonationVotingMerkleDistributionStrategy } from "@allo-team/allo-v2-sdk";
-import { Abi } from "viem";
+import { Abi, Address, TransactionReceipt } from "viem";
 
-// todo: args === gitcoin-ui types: ReviewBody (PR: par-462)
-// see: src/features/checker/pages/SubmitFinalEvaluationPage/types.ts
-export const reviewRecipients = async (args: {
+enum RoundCategory {
+  QuadraticFunding,
+  Direct
+}
+
+enum ApplicationStatus {
+  PENDING = "PENDING",
+  APPROVED = "APPROVED",
+  REJECTED = "REJECTED",
+  APPEAL = "APPEAL",
+  IN_REVIEW = "IN_REVIEW",
+  CANCELLED = "CANCELLED"
+}
+
+function applicationStatusToNumber(status: ApplicationStatus): bigint {
+  switch (status) {
+    case ApplicationStatus.PENDING:
+      return 1n;
+    case ApplicationStatus.APPROVED:
+      return 2n;
+    case ApplicationStatus.REJECTED:
+      return 3n;
+    case ApplicationStatus.APPEAL:
+      return 4n;
+    case ApplicationStatus.IN_REVIEW:
+      return 5n;
+    case ApplicationStatus.CANCELLED:
+      return 6n;
+    default:
+      throw new Error(`Unknown status ${status}`);
+  }
+}
+
+// Custom class to handle the review recipients logic
+class ReviewRecipients extends EventEmitter {
+  async execute(args: {
     roundId: string;
     strategyAddress: Address;
-    applicationsToUpdate: {
-      index: number;
-      status: ApplicationStatus;
-    }[];
-    currentApplications: {
-      index: number;
-      status: ApplicationStatus;
-    }[];
+    applicationsToUpdate: { index: number; status: ApplicationStatus }[];
+    currentApplications: { index: number; status: ApplicationStatus }[];
     strategy?: RoundCategory;
-  }) => {
-      let strategyInstance;
+    
+  }, chainId: number): Promise<{ status: "success" } | { status: "error"; error: Error }> {
+    let strategyInstance;
 
-      switch (args.strategy) {
-        case RoundCategory.QuadraticFunding: {
-          strategyInstance = new DonationVotingMerkleDistributionStrategy({
-            chain: this.chainId,
-            poolId: BigInt(args.roundId),
-            address: args.strategyAddress,
-          });
-          break;
-        }
-
-        case RoundCategory.Direct: {
-          strategyInstance = new DirectGrantsLiteStrategy({
-            chain: this.chainId,
-            poolId: BigInt(args.roundId),
-            address: args.strategyAddress,
-          });
-          break;
-        }
-
-        default:
-          throw new Error("Invalid strategy");
+    switch (args.strategy) {
+      case RoundCategory.QuadraticFunding: {
+        strategyInstance = new DonationVotingMerkleDistributionStrategy({
+          chain: chainId,
+          poolId: BigInt(args.roundId),
+          address: args.strategyAddress,
+        });
+        break;
       }
-
-      let totalApplications = 0n;
-      try {
-        totalApplications = await strategyInstance.recipientsCounter();
-      } catch (error) {
-        totalApplications = BigInt(args.currentApplications.length + 1);
+      case RoundCategory.Direct: {
+        strategyInstance = new DirectGrantsLiteStrategy({
+          chain: chainId,
+          poolId: BigInt(args.roundId),
+          address: args.strategyAddress,
+        });
+        break;
       }
+      default:
+        throw new Error("Invalid strategy");
+    }
 
-      const rows = buildUpdatedRowsOfApplicationStatuses({
-        applicationsToUpdate: args.applicationsToUpdate,
-        currentApplications: args.currentApplications,
-        statusToNumber: applicationStatusToNumber,
-        bitsPerStatus: 4,
-      });
+    let totalApplications = 0n;
+    try {
+      totalApplications = await strategyInstance.recipientsCounter();
+    } catch (error) {
+      totalApplications = BigInt(args.currentApplications.length + 1);
+    }
 
-      // todo: use wagmi
-      const txResult = await sendTransaction(this.transactionSender, {
+    const rows = buildUpdatedRowsOfApplicationStatuses({
+      applicationsToUpdate: args.applicationsToUpdate,
+      currentApplications: args.currentApplications,
+      statusToNumber: applicationStatusToNumber,
+      bitsPerStatus: 4,
+    });
+
+    try {
+      const txResult = await args.transactionSender.sendTransaction({
         address: args.strategyAddress,
         abi: DonationVotingMerkleDistributionDirectTransferStrategyAbi as Abi,
         functionName: "reviewRecipients",
         args: [rows, totalApplications],
       });
 
-      emit("transaction", txResult);
+      this.emit("transaction", txResult);
 
       if (txResult.type === "error") {
         return txResult;
@@ -71,54 +98,39 @@ export const reviewRecipients = async (args: {
 
       let receipt: TransactionReceipt;
       try {
-        receipt = await this.transactionSender.wait(txResult.value);
-        emit("transactionStatus", success(receipt));
+        receipt = await args.transactionSender.wait(txResult.value);
+        this.emit("transactionStatus", { status: "success", receipt });
       } catch (err) {
-        const result = new AlloError("Failed to update application status");
-        emit("transactionStatus", error(result));
-        return error(result);
+        const errorResult = new Error("Failed to update application status");
+        this.emit("transactionStatus", { status: "error", error: errorResult });
+        return { status: "error", error: errorResult };
       }
 
-      await this.waitUntilIndexerSynced({
-        chainId: this.chainId,
+      await waitUntilIndexerSynced({
+        chainId: chainId,
         blockNumber: receipt.blockNumber,
       });
 
-      emit("indexingStatus", success(undefined));
+      this.emit("indexingStatus", { status: "success" });
 
-      return success(undefined);
+      return { status: "success" };
+    } catch (error) {
+      this.emit("transaction", { type: "error", error });
+      return { status: "error", error: error as Error};
     }
-
-    function applicationStatusToNumber(status: ApplicationStatus) {
-  switch (status) {
-    case "PENDING":
-      return 1n;
-    case "APPROVED":
-      return 2n;
-    case "REJECTED":
-      return 3n;
-    case "APPEAL":
-      return 4n;
-    case "IN_REVIEW":
-      return 5n;
-    case "CANCELLED":
-      return 6n;
-
-    default:
-      throw new Error(`Unknown status ${status}`);
   }
 }
 
-// ==== this should all work =====
-    export function buildUpdatedRowsOfApplicationStatuses(args: {
-  applicationsToUpdate: {
-    index: number;
-    status: ApplicationStatus;
-  }[];
-  currentApplications: {
-    index: number;
-    status: ApplicationStatus;
-  }[];
+// Function to simulate waiting until indexer is synced
+async function waitUntilIndexerSynced({ chainId, blockNumber }: { chainId: number, blockNumber: BigInt }) {
+  // todo: Implementation of waiting logic
+}
+
+// =========== Do not touch this code ===========
+
+function buildUpdatedRowsOfApplicationStatuses(args: {
+  applicationsToUpdate: { index: number; status: ApplicationStatus }[];
+  currentApplications: { index: number; status: ApplicationStatus }[];
   statusToNumber: (status: ApplicationStatus) => bigint;
   bitsPerStatus: number;
 }): { index: bigint; statusRow: bigint }[] {
@@ -193,4 +205,19 @@ function buildRowOfApplicationStatuses({
   }
 
   return row;
+}
+
+// Function to create and execute the reviewRecipients process
+export function reviewRecipients(args: {
+  roundId: string;
+  strategyAddress: Address;
+  applicationsToUpdate: { index: number; status: ApplicationStatus }[];
+  currentApplications: { index: number; status: ApplicationStatus }[];
+  strategy?: RoundCategory;
+  chainId: number;
+  transactionSender: any;
+}): ReviewRecipients {
+  const reviewRecipientsInstance = new ReviewRecipients();
+  reviewRecipientsInstance.execute(args);
+  return reviewRecipientsInstance;
 }
