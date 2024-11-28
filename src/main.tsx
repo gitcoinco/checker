@@ -10,7 +10,7 @@ createRoot(document.getElementById("root")!).render(
     <BrowserRouter>
       <Routes>
         <Route element={<MainLayout />}>
-        <Route path="/" element={<LandingPage />} />
+          <Route path="/" element={<LandingPage />} />
           <Route path="review/:chainId/:poolId" element={<ReviewPage />} />
           <Route path="view/application/:chainId/:poolId/:applicationId" element={<ViewPage />} />
         </Route>
