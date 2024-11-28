@@ -12,7 +12,7 @@ createRoot(document.getElementById("root")!).render(
         <Route element={<MainLayout />}>
         <Route path="/" element={<LandingPage />} />
           <Route path="review/:chainId/:poolId" element={<ReviewPage />} />
-          <Route path="view/:chainId/:poolId/:applicationId" element={<ViewPage />} />
+          <Route path="view/application/:chainId/:poolId/:applicationId" element={<ViewPage />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace={true} />} />
       </Routes>
