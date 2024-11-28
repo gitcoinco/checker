@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
 import { DirectGrantsLiteStrategy, DonationVotingMerkleDistributionDirectTransferStrategyAbi, DonationVotingMerkleDistributionStrategy } from "@allo-team/allo-v2-sdk";
-import { Abi, Address, TransactionReceipt, WalletClient } from "viem";
+import { Abi, Address, createPublicClient, encodeFunctionData, http, WalletClient } from "viem";
 
 enum RoundCategory {
   QuadraticFunding,
@@ -35,7 +35,6 @@ function applicationStatusToNumber(status: ApplicationStatus): bigint {
   }
 }
 
-// Custom class to handle the review recipients logic
 class ReviewRecipients extends EventEmitter {
   async execute(args: {
     roundId: string;
@@ -43,7 +42,6 @@ class ReviewRecipients extends EventEmitter {
     applicationsToUpdate: { index: number; status: ApplicationStatus }[];
     currentApplications: { index: number; status: ApplicationStatus }[];
     strategy?: RoundCategory;
-    
   }, chainId: number, walletClient: WalletClient): Promise<{ status: "success" } | { status: "error"; error: Error }> {
     let strategyInstance;
 
@@ -83,28 +81,38 @@ class ReviewRecipients extends EventEmitter {
     });
 
     try {
-      const txResult = await args.transactionSender.sendTransaction({
-        address: args.strategyAddress,
-        abi: DonationVotingMerkleDistributionDirectTransferStrategyAbi as Abi,
-        functionName: "reviewRecipients",
-        args: [rows, totalApplications],
-      });
-
-      this.emit("transaction", txResult);
-
-      if (txResult.type === "error") {
-        return txResult;
+      const account = walletClient.account;
+      if (!account) {
+        throw new Error("WalletClient account is undefined");
       }
 
-      let receipt: TransactionReceipt;
-      try {
-        receipt = await args.transactionSender.wait(txResult.value);
-        this.emit("transactionStatus", { status: "success", receipt });
-      } catch (err) {
+      const txHash = await walletClient.sendTransaction({
+        account: account,
+        to: args.strategyAddress,
+        data: encodeFunctionData({
+          abi: DonationVotingMerkleDistributionDirectTransferStrategyAbi as Abi,
+          functionName: "reviewRecipients",
+          args: [rows, totalApplications],
+        }),
+        chain: null,
+      });
+
+      this.emit("transaction", { type: "sent", txHash });
+
+      const publicClient = createPublicClient({
+        chain: walletClient.chain,
+        transport: http(),
+      })
+
+      const receipt = await publicClient.waitForTransactionReceipt({ hash: txHash });
+
+      if (receipt.status !== "success") {
         const errorResult = new Error("Failed to update application status");
         this.emit("transactionStatus", { status: "error", error: errorResult });
         return { status: "error", error: errorResult };
       }
+
+      this.emit("transactionStatus", { status: "success", receipt });
 
       await waitUntilIndexerSynced({
         chainId: chainId,
@@ -121,10 +129,69 @@ class ReviewRecipients extends EventEmitter {
   }
 }
 
-// Function to simulate waiting until indexer is synced
-async function waitUntilIndexerSynced({ chainId, blockNumber }: { chainId: number, blockNumber: BigInt }) {
-  // todo: Implementation of waiting logic
+async function waitUntilIndexerSynced({ chainId, blockNumber }: { chainId: number, blockNumber: bigint }) {
+  const endpoint = "your-endpoint-url-here"; // todo: add endpoint
+  const pollIntervalInMs = 1000;
+
+  async function pollIndexer() {
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        query: `
+          query getBlockNumberQuery($chainId: Int!) {
+            subscriptions(
+              filter: { chainId: { equalTo: $chainId }, toBlock: { equalTo: "latest" } }
+            ) {
+              chainId
+              indexedToBlock
+            }
+          }
+        `,
+        variables: {
+          chainId,
+        },
+      }),
+    });
+
+    if (response.status === 200) {
+      const {
+        data,
+      }: {
+        data: {
+          subscriptions: { chainId: number; indexedToBlock: string }[];
+        };
+      } = await response.json();
+
+      const subscriptions = data?.subscriptions || [];
+
+      if (subscriptions.length > 0) {
+        const currentBlockNumber = BigInt(
+          subscriptions.reduce(
+            (minBlock, sub) =>
+              BigInt(sub.indexedToBlock) < BigInt(minBlock)
+                ? sub.indexedToBlock
+                : minBlock,
+            subscriptions[0].indexedToBlock
+          )
+        );
+
+        if (currentBlockNumber >= blockNumber) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+
+  while (!(await pollIndexer())) {
+    await new Promise((resolve) => setTimeout(resolve, pollIntervalInMs));
+  }
 }
+
 
 // =========== Do not touch this code ===========
 
@@ -207,17 +274,17 @@ function buildRowOfApplicationStatuses({
   return row;
 }
 
-// Function to create and execute the reviewRecipients process
 export function reviewRecipients(args: {
   roundId: string;
   strategyAddress: Address;
   applicationsToUpdate: { index: number; status: ApplicationStatus }[];
   currentApplications: { index: number; status: ApplicationStatus }[];
   strategy?: RoundCategory;
-  chainId: number;
-  transactionSender: any;
-}): ReviewRecipients {
+}, 
+  chainId: number,
+  walletClient: WalletClient
+): ReviewRecipients {
   const reviewRecipientsInstance = new ReviewRecipients();
-  reviewRecipientsInstance.execute(args);
+  reviewRecipientsInstance.execute(args, chainId, walletClient);
   return reviewRecipientsInstance;
 }
