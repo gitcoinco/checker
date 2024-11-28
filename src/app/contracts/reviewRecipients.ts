@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
 import { DirectGrantsLiteStrategy, DonationVotingMerkleDistributionDirectTransferStrategyAbi, DonationVotingMerkleDistributionStrategy } from "@allo-team/allo-v2-sdk";
-import { Abi, Address, TransactionReceipt } from "viem";
+import { Abi, Address, TransactionReceipt, WalletClient } from "viem";
 
 enum RoundCategory {
   QuadraticFunding,
@@ -44,7 +44,7 @@ class ReviewRecipients extends EventEmitter {
     currentApplications: { index: number; status: ApplicationStatus }[];
     strategy?: RoundCategory;
     
-  }, chainId: number): Promise<{ status: "success" } | { status: "error"; error: Error }> {
+  }, chainId: number, walletClient: WalletClient): Promise<{ status: "success" } | { status: "error"; error: Error }> {
     let strategyInstance;
 
     switch (args.strategy) {
