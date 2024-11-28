@@ -9,7 +9,7 @@ export default tseslint.config(
   ...tseslint.configs.recommended, // .strict is a super set of recommended
   // ...tseslint.configs.strict,
   ...tseslint.configs.stylistic,
-  { ignores: [".next","dist", "node_modules"] },
+  { ignores: [".next", "dist", "node_modules"] },
   {
     extends: [
       "next/core-web-vitals",
