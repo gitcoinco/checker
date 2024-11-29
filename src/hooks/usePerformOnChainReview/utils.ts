@@ -7,9 +7,10 @@ import {
 } from "@allo-team/allo-v2-sdk";
 
 import { Abi, Address, createPublicClient, encodeFunctionData, http, WalletClient } from "viem";
-import { ApplicationStatus, ProgressStatus, RoundCategory, Step } from ".";
+import { ApplicationStatus, ApplicationStatusType, PoolCategory } from "gitcoin-ui/checker";
+import { ProgressStatus, Step } from "gitcoin-ui";
 
-export const applicationStatusToNumber = (status: ApplicationStatus): bigint => {
+export const applicationStatusToNumber = (status: ApplicationStatusType): bigint => {
   switch (status) {
     case ApplicationStatus.PENDING:
       return 1n;
@@ -33,9 +34,9 @@ class ReviewRecipients extends EventEmitter {
     args: {
       roundId: string;
       strategyAddress: Address;
-      applicationsToUpdate: { index: number; status: ApplicationStatus }[];
-      currentApplications: { index: number; status: ApplicationStatus }[];
-      strategy?: RoundCategory;
+      applicationsToUpdate: { index: number; status: ApplicationStatusType }[];
+      currentApplications: { index: number; status: ApplicationStatusType }[];
+      strategy?: PoolCategory;
     },
     chainId: number,
     walletClient: WalletClient,
@@ -43,7 +44,7 @@ class ReviewRecipients extends EventEmitter {
     let strategyInstance;
 
     switch (args.strategy) {
-      case RoundCategory.QuadraticFunding: {
+      case PoolCategory.QuadraticFunding: {
         strategyInstance = new DonationVotingMerkleDistributionStrategy({
           chain: chainId,
           poolId: BigInt(args.roundId),
@@ -51,7 +52,7 @@ class ReviewRecipients extends EventEmitter {
         });
         break;
       }
-      case RoundCategory.Direct: {
+      case PoolCategory.Direct: {
         strategyInstance = new DirectGrantsLiteStrategy({
           chain: chainId,
           poolId: BigInt(args.roundId),
@@ -196,9 +197,9 @@ export const waitUntilIndexerSynced = async ({
 // =========== Do not touch this code ===========
 
 export const buildUpdatedRowsOfApplicationStatuses = (args: {
-  applicationsToUpdate: { index: number; status: ApplicationStatus }[];
-  currentApplications: { index: number; status: ApplicationStatus }[];
-  statusToNumber: (status: ApplicationStatus) => bigint;
+  applicationsToUpdate: { index: number; status: ApplicationStatusType }[];
+  currentApplications: { index: number; status: ApplicationStatusType }[];
+  statusToNumber: (status: ApplicationStatusType) => bigint;
   bitsPerStatus: number;
 }): { index: bigint; statusRow: bigint }[] => {
   if (args.bitsPerStatus > 1 && args.bitsPerStatus % 2 !== 0) {
@@ -247,8 +248,8 @@ export const buildRowOfApplicationStatuses = ({
   bitsPerStatus,
 }: {
   rowIndex: number;
-  applications: { index: number; status: ApplicationStatus }[];
-  statusToNumber: (status: ApplicationStatus) => bigint;
+  applications: { index: number; status: ApplicationStatusType }[];
+  statusToNumber: (status: ApplicationStatusType) => bigint;
   bitsPerStatus: number;
 }) => {
   const applicationsPerRow = 256 / bitsPerStatus;
@@ -276,12 +277,12 @@ export const getStrategyInstance = (
   strategyAddress: Address,
   chainId: number,
   roundId: string,
-  strategy?: RoundCategory,
+  strategy?: PoolCategory,
 ) => {
   let strategyInstance;
   let strategyInstanceAbi;
   switch (strategy) {
-    case RoundCategory.QuadraticFunding: {
+    case PoolCategory.QuadraticFunding: {
       strategyInstance = new DonationVotingMerkleDistributionStrategy({
         chain: chainId,
         poolId: BigInt(roundId),
@@ -290,7 +291,7 @@ export const getStrategyInstance = (
       strategyInstanceAbi = DonationVotingMerkleDistributionDirectTransferStrategyAbi;
       break;
     }
-    case RoundCategory.Direct: {
+    case PoolCategory.Direct: {
       strategyInstance = new DirectGrantsLiteStrategy({
         chain: chainId,
         poolId: BigInt(roundId),
@@ -310,9 +311,9 @@ export function reviewRecipients(
   args: {
     roundId: string;
     strategyAddress: Address;
-    applicationsToUpdate: { index: number; status: ApplicationStatus }[];
-    currentApplications: { index: number; status: ApplicationStatus }[];
-    strategy?: RoundCategory;
+    applicationsToUpdate: { index: number; status: ApplicationStatusType }[];
+    currentApplications: { index: number; status: ApplicationStatusType }[];
+    strategy?: PoolCategory;
   },
   chainId: number,
   walletClient: WalletClient,

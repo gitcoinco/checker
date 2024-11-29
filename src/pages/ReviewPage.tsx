@@ -1,4 +1,4 @@
-import { Checker } from "gitcoin-ui/checker";
+import { Checker, EvaluationBody } from "gitcoin-ui/checker";
 import { usePerformOnChainReview, usePerformEvaluation } from "@/hooks";
 import { Button } from "gitcoin-ui";
 import { useParams } from "react-router";
@@ -40,7 +40,7 @@ export const ReviewPage = () => {
       address={address}
       poolId={poolId}
       chainId={parseInt(chainId, 10)}
-      setEvaluationBody={setEvaluationBody}
+      setEvaluationBody={(body: EvaluationBody) => setEvaluationBody(body)}
       isSigning={isSigning}
       isSuccess={isSuccess}
       isEvaluating={isEvaluating}

@@ -25,7 +25,7 @@ importers:
         version: 3.3.0
       gitcoin-ui:
         specifier: ^1.3.6
-        version: 1.3.6(@types/react-dom@18.3.1)(@types/react@18.3.12)(bufferutil@4.0.8)(graphql@16.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rollup@4.27.4)(storybook@8.4.5(bufferutil@4.0.8)(prettier@3.4.1)(utf-8-validate@5.0.10))(tailwindcss@3.4.15)(typescript@5.6.3)(utf-8-validate@5.0.10)(vite@6.0.1(@types/node@20.17.9)(jiti@2.4.0)(yaml@2.6.1))
+        version: 1.3.7(@types/react-dom@18.3.1)(@types/react@18.3.12)(bufferutil@4.0.8)(graphql@16.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rollup@4.27.4)(storybook@8.4.5(bufferutil@4.0.8)(prettier@3.4.1)(utf-8-validate@5.0.10))(tailwindcss@3.4.15)(typescript@5.6.3)(utf-8-validate@5.0.10)(vite@6.0.1(@types/node@20.17.9)(jiti@2.4.0)(yaml@2.6.1))
       lint-staged:
         specifier: ^15.2.10
         version: 15.2.10
@@ -3320,8 +3320,8 @@ packages:
     resolution: {integrity: sha512-VaUJspBffn/LMCJVoMvSAdmscJyS1auj5Zulnn5UoYcY531UWmdwhRWkcGKnGU93m5HSXP9LP2usOryrBtQowA==}
     engines: {node: '>=16'}
 
-  gitcoin-ui@1.3.6:
-    resolution: {integrity: sha512-iQ15qkTVcj7VQGYBpFqYVGzR9Bq1fP3tROGkjPi+jyBOGB9mm3lYtf9hboLG4THxUDfwFEkLhEzS+2uXX7Uy/g==}
+  gitcoin-ui@1.3.7:
+    resolution: {integrity: sha512-n3egs6+3zKuKrb+6XVaiz5CBbSIS0merE9pTAjf8vCcszpB666lVhfj+v5gWJQ33AlQMUn5AXhTHBLVNdAipUg==}
     peerDependencies:
       react: 18.3.1
       react-dom: 18.3.1
@@ -9329,7 +9329,7 @@ snapshots:
 
   get-stream@8.0.1: {}
 
-  gitcoin-ui@1.3.6(@types/react-dom@18.3.1)(@types/react@18.3.12)(bufferutil@4.0.8)(graphql@16.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rollup@4.27.4)(storybook@8.4.5(bufferutil@4.0.8)(prettier@3.4.1)(utf-8-validate@5.0.10))(tailwindcss@3.4.15)(typescript@5.6.3)(utf-8-validate@5.0.10)(vite@6.0.1(@types/node@20.17.9)(jiti@2.4.0)(yaml@2.6.1)):
+  gitcoin-ui@1.3.7(@types/react-dom@18.3.1)(@types/react@18.3.12)(bufferutil@4.0.8)(graphql@16.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rollup@4.27.4)(storybook@8.4.5(bufferutil@4.0.8)(prettier@3.4.1)(utf-8-validate@5.0.10))(tailwindcss@3.4.15)(typescript@5.6.3)(utf-8-validate@5.0.10)(vite@6.0.1(@types/node@20.17.9)(jiti@2.4.0)(yaml@2.6.1)):
     dependencies:
       '@heroicons/react': 1.0.6(react@18.3.1)
       '@hookform/resolvers': 3.9.1(react-hook-form@7.53.2(react@18.3.1))

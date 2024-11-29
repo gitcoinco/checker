@@ -3,7 +3,8 @@ import { useState, useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { Hex } from "viem";
 import { useAccount, useWalletClient } from "wagmi";
-import { EvaluationBody, submitEvaluation } from ".";
+import { submitEvaluation } from "./utils";
+import { EvaluationBody } from "gitcoin-ui/checker";
 
 export const usePerformEvaluation = () => {
   const [evaluationBody, setEvaluationBody] = useState<EvaluationBody | null>(null);

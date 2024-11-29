@@ -1,6 +1,6 @@
 // CHECKER
 
-import { EvaluationBody, SyncPoolBody } from ".";
+import { EvaluationBody, SyncPoolBody } from "gitcoin-ui/checker";
 
 export const CHECKER_ENDPOINT = "https://api.checker.gitcoin.co";
 

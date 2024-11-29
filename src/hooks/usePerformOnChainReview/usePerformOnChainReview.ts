@@ -4,9 +4,6 @@ import { useWalletClient } from "wagmi";
 import { Abi, createPublicClient, encodeFunctionData, http } from "viem";
 
 import {
-  // Types
-  ProgressStatus,
-  ReviewBody,
   // Utils
   waitUntilIndexerSynced,
   applicationStatusToNumber,
@@ -14,6 +11,8 @@ import {
   getStrategyInstance,
   getOnchainEvaluationProgressSteps,
 } from ".";
+import { ReviewBody } from "gitcoin-ui/checker";
+import { ProgressStatus } from "gitcoin-ui";
 
 export const usePerformOnChainReview = () => {
   const [reviewBody, setReviewBody] = useState<ReviewBody | null>(null);
