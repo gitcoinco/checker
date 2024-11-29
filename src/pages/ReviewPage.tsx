@@ -1,4 +1,4 @@
-import { Checker } from "gitcoin-ui";
+import { Checker } from "gitcoin-ui/checker";
 import { useParams } from "react-router";
 import { useAccount } from "wagmi";
 
