@@ -5,6 +5,7 @@ import { Hex } from "viem";
 import { useAccount, useWalletClient } from "wagmi";
 import { submitEvaluation } from "./utils";
 import { EvaluationBody } from "gitcoin-ui/checker";
+import { deterministicKeccakHash } from "@/utils/utils";
 
 export const usePerformEvaluation = () => {
   const [evaluationBody, setEvaluationBody] = useState<EvaluationBody | null>(null);
@@ -16,18 +17,33 @@ export const usePerformEvaluation = () => {
   };
 
   // Dummy signing function
-  const dummySign = async (): Promise<Hex> => {
+  const signEvaluationBody = async (): Promise<Hex> => {
     if (!walletClient) {
       throw new Error("No wallet client found");
     }
-    // Dummy Signature to simulate the workflow
-    await walletClient.signMessage({ message: "dummy" });
-    return "0xdeadbeef";
+
+    if (!evaluationBody) {
+      throw new Error("No evaluation body found");
+    }
+
+    const hash = await deterministicKeccakHash({
+      chainId: evaluationBody.chainId,
+      alloPoolId: evaluationBody.alloPoolId,
+      alloApplicationId: evaluationBody.alloApplicationId,
+      cid: evaluationBody.cid,
+      evaluator: address,
+      summaryInput: evaluationBody.summaryInput,
+      evaluationStatus: evaluationBody.evaluationStatus,
+    });
+
+    const signature = await walletClient.signMessage({ message: hash });
+
+    return signature;
   };
 
   // Signing mutation
   const signingMutation = useMutation({
-    mutationFn: dummySign,
+    mutationFn: signEvaluationBody,
   });
 
   // Evaluation mutation
