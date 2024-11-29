@@ -5,10 +5,10 @@
 * {
   @apply box-border font-sans;
 }
-
-body {
+/* Removing for now dark themw */
+/* body {
   @apply dark:bg-black dark:text-white;
-}
+} */
 
 @layer base {
   :root {
