@@ -1,8 +1,8 @@
 import { Checker, EvaluationBody } from "gitcoin-ui/checker";
 import { usePerformOnChainReview, usePerformEvaluation } from "@/hooks";
-import { Button } from "gitcoin-ui";
 import { useParams } from "react-router";
 import { useAccount, useWalletClient } from "wagmi";
+import { MessagePage } from "@/components/Message";
 
 export const ReviewPage = () => {
   const { chainId, poolId } = useParams();
@@ -14,24 +14,37 @@ export const ReviewPage = () => {
   const { steps, setReviewBody, isReviewing } = usePerformOnChainReview();
 
   if (!chainId || !poolId) {
-    return <div>Invalid pool ID</div>;
+    return (
+      <MessagePage
+        title="Pool Not Found"
+        message="The pool you're looking for doesn't exist. Please check the URL."
+      />
+    );
   }
+
   if (!address || !walletClient) {
-    return <div>Connect your wallet</div>;
+    return (
+      <MessagePage
+        title="Wallet Not Connected"
+        message="Please connect your wallet to access this feature. Connecting your wallet is required to interact with the application."
+      />
+    );
   }
 
   if (Number(chainId) !== connectedChainId) {
     return (
-      <div className="mt-[30%] flex flex-col items-center">
-        <Button
-          onClick={async () => {
+      <MessagePage
+        title="Wrong Network"
+        message={`Please switch to the correct chain (${chainId}) to review applications`}
+        action={{
+          label: "Switch chain",
+          onClick: async () => {
             await walletClient.switchChain({
               id: Number(chainId),
             });
-          }}
-          value="Switch chain"
-        />
-      </div>
+          },
+        }}
+      />
     );
   }
 
