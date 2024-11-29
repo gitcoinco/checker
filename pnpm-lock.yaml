@@ -5328,11 +5328,6 @@ packages:
     peerDependencies:
       vite: '>=2.6.0'
 
-  vite-plugin-wasm@3.3.0:
-    resolution: {integrity: sha512-tVhz6w+W9MVsOCHzxo6SSMSswCeIw4HTrXEi6qL3IRzATl83jl09JVO1djBqPSwfjgnpVHNLYcaMbaDX5WB/pg==}
-    peerDependencies:
-      vite: ^2 || ^3 || ^4 || ^5
-
   vite@6.0.1:
     resolution: {integrity: sha512-Ldn6gorLGr4mCdFnmeAOLweJxZ34HjKnDm4HGo6P66IEqTxQb36VEdFJQENKxWjupNfoIjvRUnswjn1hpYEpjQ==}
     engines: {node: ^18.0.0 || ^20.0.0 || >=22.0.0}
@@ -5570,7 +5565,7 @@ snapshots:
       events: 3.3.0
       hardhat: 2.22.16(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)
       mocha: 10.8.2
-      viem: 2.21.51(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.23.8)
+      viem: 2.21.52(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.23.8)
     transitivePeerDependencies:
       - '@typechain/ethers-v6'
       - bufferutil
@@ -6009,7 +6004,7 @@ snapshots:
   '@gitcoin/gitcoin-chain-data@1.0.43(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.23.8)':
     dependencies:
       typescript: 5.6.3
-      viem: 2.21.51(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.23.8)
+      viem: 2.21.52(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.23.8)
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -9386,7 +9381,6 @@ snapshots:
       vaul: 1.1.1(@types/react-dom@18.3.1)(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       viem: 2.21.52(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.23.8)
       vite-plugin-svgr: 4.3.0(rollup@4.27.4)(typescript@5.6.3)(vite@6.0.1(@types/node@20.17.9)(jiti@2.4.0)(yaml@2.6.1))
-      vite-plugin-wasm: 3.3.0(vite@6.0.1(@types/node@20.17.9)(jiti@2.4.0)(yaml@2.6.1))
       zod: 3.23.8
     transitivePeerDependencies:
       - '@types/react'
@@ -11787,10 +11781,6 @@ snapshots:
       - rollup
       - supports-color
       - typescript
-
-  vite-plugin-wasm@3.3.0(vite@6.0.1(@types/node@20.17.9)(jiti@2.4.0)(yaml@2.6.1)):
-    dependencies:
-      vite: 6.0.1(@types/node@20.17.9)(jiti@2.4.0)(yaml@2.6.1)
 
   vite@6.0.1(@types/node@20.17.9)(jiti@2.4.0)(yaml@2.6.1):
     dependencies:
