@@ -26,3 +26,4 @@ dist-ssr
 .vercel
 tsconfig.app.tsbuildinfo
 tsconfig.node.tsbuildinfo
+.next
