@@ -1,4 +1,6 @@
-import { CheckerIcon, Navbar } from "gitcoin-ui";
+import { Navbar } from "gitcoin-ui";
+import { CheckerIcon } from "gitcoin-ui/icons";
+
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Outlet } from "react-router";
 import { Providers } from "@/providers/Providers";
