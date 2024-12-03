@@ -9,8 +9,7 @@ export const ReviewPage = () => {
   const { address, chainId: connectedChainId } = useAccount();
   const { data: walletClient } = useWalletClient();
 
-  const { setEvaluationBody, isSigning, isSuccess, isEvaluating, isError, isErrorSigning } =
-    usePerformEvaluation();
+  const { setEvaluationBody, isSuccess, isEvaluating, isError } = usePerformEvaluation();
   const { steps, setReviewBody, isReviewing } = usePerformOnChainReview();
 
   if (!chainId || !poolId) {
@@ -54,11 +53,9 @@ export const ReviewPage = () => {
       poolId={poolId}
       chainId={parseInt(chainId, 10)}
       setEvaluationBody={(body: EvaluationBody) => setEvaluationBody(body)}
-      isSigning={isSigning}
       isSuccess={isSuccess}
       isEvaluating={isEvaluating}
       isError={isError}
-      isErrorSigning={isErrorSigning}
       steps={steps}
       setReviewBody={setReviewBody as any}
       isReviewing={isReviewing}

@@ -27,8 +27,8 @@ importers:
         specifier: ^3.3.0
         version: 3.3.0
       gitcoin-ui:
-        specifier: ^1.4.0
-        version: 1.4.0(@types/react-dom@18.3.1)(@types/react@18.3.12)(bufferutil@4.0.8)(graphql@16.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rollup@4.28.0)(storybook@8.4.6(bufferutil@4.0.8)(prettier@3.4.1)(utf-8-validate@5.0.10))(tailwindcss@3.4.15)(typescript@5.6.3)(utf-8-validate@5.0.10)(vite@6.0.1(@types/node@20.17.9)(jiti@2.4.1)(yaml@2.6.1))
+        specifier: ^1.4.3
+        version: 1.4.3(@types/react-dom@18.3.1)(@types/react@18.3.12)(bufferutil@4.0.8)(graphql@16.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rollup@4.27.4)(storybook@8.4.5(bufferutil@4.0.8)(prettier@3.4.1)(utf-8-validate@5.0.10))(tailwindcss@3.4.15)(typescript@5.6.3)(utf-8-validate@5.0.10)(vite@6.0.1(@types/node@20.17.9)(jiti@2.4.0)(yaml@2.6.1))
       lint-staged:
         specifier: ^15.2.10
         version: 15.2.10
@@ -3326,8 +3326,8 @@ packages:
     resolution: {integrity: sha512-VaUJspBffn/LMCJVoMvSAdmscJyS1auj5Zulnn5UoYcY531UWmdwhRWkcGKnGU93m5HSXP9LP2usOryrBtQowA==}
     engines: {node: '>=16'}
 
-  gitcoin-ui@1.4.0:
-    resolution: {integrity: sha512-Gy7VqIlk7WGvQocxFD8cymWU5v+I2V7r+kmlhiuDaV9n4stvwBwQgFtUTQr07SpbqTIRd3okYFbyVo8KXVLjsg==}
+  gitcoin-ui@1.4.3:
+    resolution: {integrity: sha512-2p1Qe4o4N5Yg8Ni5wVKHBM8qys2I9JRC0uhbgJyqa9/yWo71Y1YTIzVs+YVTDyLefify//+JycImHRV74mvBoA==}
     peerDependencies:
       react: 18.3.1
       react-dom: 18.3.1
@@ -4390,6 +4390,9 @@ packages:
 
   preact@10.25.0:
     resolution: {integrity: sha512-6bYnzlLxXV3OSpUxLdaxBmE7PMOu0aR3pG6lryK/0jmvcDFPlcXGQAt5DpK3RITWiDrfYZRI0druyaK/S9kYLg==}
+
+  preact@10.25.1:
+    resolution: {integrity: sha512-frxeZV2vhQSohQwJ7FvlqC40ze89+8friponWUFeVEkaCfhC6Eu4V0iND5C9CXz8JLndV07QRDeXzH1+Anz5Og==}
 
   prelude-ls@1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
@@ -5722,7 +5725,7 @@ snapshots:
       eth-json-rpc-filters: 6.0.1
       eventemitter3: 5.0.1
       keccak: 3.0.4
-      preact: 10.25.0
+      preact: 10.25.1
       sha.js: 2.4.11
     transitivePeerDependencies:
       - supports-color
@@ -9340,7 +9343,7 @@ snapshots:
 
   get-stream@8.0.1: {}
 
-  gitcoin-ui@1.4.0(@types/react-dom@18.3.1)(@types/react@18.3.12)(bufferutil@4.0.8)(graphql@16.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rollup@4.28.0)(storybook@8.4.6(bufferutil@4.0.8)(prettier@3.4.1)(utf-8-validate@5.0.10))(tailwindcss@3.4.15)(typescript@5.6.3)(utf-8-validate@5.0.10)(vite@6.0.1(@types/node@20.17.9)(jiti@2.4.1)(yaml@2.6.1)):
+  gitcoin-ui@1.4.3(@types/react-dom@18.3.1)(@types/react@18.3.12)(bufferutil@4.0.8)(graphql@16.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rollup@4.27.4)(storybook@8.4.5(bufferutil@4.0.8)(prettier@3.4.1)(utf-8-validate@5.0.10))(tailwindcss@3.4.15)(typescript@5.6.3)(utf-8-validate@5.0.10)(vite@6.0.1(@types/node@20.17.9)(jiti@2.4.0)(yaml@2.6.1)):
     dependencies:
       '@heroicons/react': 1.0.6(react@18.3.1)
       '@hookform/resolvers': 3.9.1(react-hook-form@7.53.2(react@18.3.1))
@@ -10785,6 +10788,8 @@ snapshots:
       source-map-js: 1.2.1
 
   preact@10.25.0: {}
+
+  preact@10.25.1: {}
 
   prelude-ls@1.2.1: {}
 
