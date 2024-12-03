@@ -4,7 +4,6 @@ import { useWalletClient } from "wagmi";
 import { Abi, createPublicClient, encodeFunctionData, http } from "viem";
 
 import {
-  // Utils
   waitUntilIndexerSynced,
   applicationStatusToNumber,
   buildUpdatedRowsOfApplicationStatuses,
@@ -90,7 +89,7 @@ export const usePerformOnChainReview = () => {
 
           receipt = await publicClient.waitForTransactionReceipt({
             hash: txHash,
-            confirmations: 2,
+            confirmations: 1,
           });
         } catch (sendError) {
           setContractUpdatingStatus(ProgressStatus.IS_ERROR);
@@ -136,9 +135,12 @@ export const usePerformOnChainReview = () => {
 
   useEffect(() => {
     if (evaluationMutation.isSuccess) {
+      setContractUpdatingStatus(ProgressStatus.NOT_STARTED);
+      setIndexingStatus(ProgressStatus.NOT_STARTED);
+      setFinishingStatus(ProgressStatus.NOT_STARTED);
       evaluationMutation.reset();
     }
-  }, [evaluationMutation.isSuccess]);
+  }, [evaluationMutation]);
 
   const steps = useMemo(() => {
     return getOnchainEvaluationProgressSteps({

@@ -16,7 +16,6 @@ export const usePerformEvaluation = () => {
     setEvaluationBody(data);
   };
 
-  // Dummy signing function
   const signEvaluationBody = async (): Promise<Hex> => {
     if (!walletClient) {
       throw new Error("No wallet client found");
@@ -41,44 +40,28 @@ export const usePerformEvaluation = () => {
     return signature;
   };
 
-  // Signing mutation
-  const signingMutation = useMutation({
-    mutationFn: signEvaluationBody,
-  });
-
   // Evaluation mutation
   const evaluationMutation = useMutation({
-    mutationFn: async (data: EvaluationBody & { signature: Hex }) => {
+    mutationFn: async (data: EvaluationBody) => {
       if (!address) {
         throw new Error("No address found");
       }
-      return await submitEvaluation({ ...data, evaluator: address });
+      const signature = await signEvaluationBody();
+      await submitEvaluation({ ...data, signature, evaluator: address });
     },
   });
 
   // Trigger the signing mutation when evaluationBody is set
   useEffect(() => {
     if (evaluationBody) {
-      signingMutation.mutate();
+      evaluationMutation.mutateAsync(evaluationBody);
     }
   }, [evaluationBody]);
 
-  // Trigger the evaluation mutation when signing is successful
-  useEffect(() => {
-    if (signingMutation.isSuccess && evaluationBody) {
-      const signature = signingMutation.data;
-      evaluationMutation.mutate({ ...evaluationBody, signature });
-    }
-  }, [signingMutation.isSuccess, evaluationBody]);
-
   return {
     setEvaluationBody: handleSetEvaluationBody,
-    isSigning: signingMutation.isPending,
-    isErrorSigning: signingMutation.isError,
     isEvaluating: evaluationMutation.isPending,
     isError: evaluationMutation.isError,
     isSuccess: evaluationMutation.isSuccess,
-    data: evaluationMutation.data,
-    error: evaluationMutation.error,
   };
 };
