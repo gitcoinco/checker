@@ -9,10 +9,17 @@ export const MainLayout = () => {
   return (
     <Providers>
       <Navbar
-        text="Checker"
-        secondaryLogo={CheckerIcon}
-        primaryLogoLink="/"
-        secondaryLogoLink="/"
+        text={{ text: "checker" }}
+        secondaryLogo={{
+          img: CheckerIcon,
+          size: "h-5",
+          color: "#8E81F0",
+          link: "/",
+        }}
+        primaryLogo={{
+          link: "/",
+          size: "h-8",
+        }}
         children={<ConnectButton />}
       />
       <Outlet />
