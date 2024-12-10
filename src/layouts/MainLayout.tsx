@@ -8,13 +8,9 @@ import { Providers } from "@/providers/Providers";
 export const MainLayout = () => {
   return (
     <Providers>
-      <Navbar
-        text="Checker"
-        secondaryLogo={CheckerIcon}
-        primaryLogoLink="/"
-        secondaryLogoLink="/"
-        children={<ConnectButton />}
-      />
+      <Navbar text={{ text: "Checker", link: "/" }} secondaryLogo={{ img: CheckerIcon, link: "/" }}>
+        <ConnectButton />
+      </Navbar>
       <Outlet />
     </Providers>
   );
