@@ -4,6 +4,8 @@ import {
   DirectGrantsLiteStrategyAbi,
   DonationVotingMerkleDistributionDirectTransferStrategyAbi,
   DonationVotingMerkleDistributionStrategy,
+  EasyRetroFundingStrategy,
+  EasyRetroFundingStrategyAbi,
 } from "@allo-team/allo-v2-sdk";
 
 import { Abi, Address, createPublicClient, encodeFunctionData, http, WalletClient } from "viem";
@@ -42,6 +44,7 @@ class ReviewRecipients extends EventEmitter {
     walletClient: WalletClient,
   ): Promise<{ status: "success" } | { status: "error"; error: Error }> {
     let strategyInstance;
+    let strategyInstanceAbi;
 
     switch (args.strategy) {
       case PoolCategory.QuadraticFunding: {
@@ -50,6 +53,7 @@ class ReviewRecipients extends EventEmitter {
           poolId: BigInt(args.roundId),
           address: args.strategyAddress,
         });
+        strategyInstanceAbi = DonationVotingMerkleDistributionDirectTransferStrategyAbi;
         break;
       }
       case PoolCategory.Direct: {
@@ -58,6 +62,16 @@ class ReviewRecipients extends EventEmitter {
           poolId: BigInt(args.roundId),
           address: args.strategyAddress,
         });
+        strategyInstanceAbi = DirectGrantsLiteStrategyAbi;
+        break;
+      }
+      case PoolCategory.Retrofunding: {
+        strategyInstance = new EasyRetroFundingStrategy({
+          chain: chainId,
+          poolId: BigInt(args.roundId),
+          address: args.strategyAddress,
+        });
+        strategyInstanceAbi = EasyRetroFundingStrategyAbi;
         break;
       }
       default:
@@ -88,7 +102,7 @@ class ReviewRecipients extends EventEmitter {
         account: account,
         to: args.strategyAddress,
         data: encodeFunctionData({
-          abi: DonationVotingMerkleDistributionDirectTransferStrategyAbi as Abi,
+          abi: strategyInstanceAbi as Abi,
           functionName: "reviewRecipients",
           args: [rows, totalApplications],
         }),
@@ -298,6 +312,15 @@ export const getStrategyInstance = (
         address: strategyAddress,
       });
       strategyInstanceAbi = DirectGrantsLiteStrategyAbi;
+      break;
+    }
+    case PoolCategory.Retrofunding: {
+      strategyInstance = new EasyRetroFundingStrategy({
+        chain: chainId,
+        poolId: BigInt(roundId),
+        address: strategyAddress,
+      });
+      strategyInstanceAbi = EasyRetroFundingStrategyAbi;
       break;
     }
     default:
