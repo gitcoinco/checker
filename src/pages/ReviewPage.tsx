@@ -1,4 +1,4 @@
-import { Checker, EvaluationBody } from "gitcoin-ui/checker";
+import { Checker, EvaluationBody } from "@gitcoin/ui/checker";
 import { usePerformOnChainReview, usePerformEvaluation } from "@/hooks";
 import { useParams } from "react-router";
 import { useAccount, useWalletClient } from "wagmi";
@@ -59,6 +59,7 @@ export const ReviewPage = () => {
       steps={steps}
       setReviewBody={setReviewBody as any}
       isReviewing={isReviewing}
+      isStandalone={true}
     />
   );
 };

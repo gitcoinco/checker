@@ -9,8 +9,8 @@ import {
 } from "@allo-team/allo-v2-sdk";
 
 import { Abi, Address, createPublicClient, encodeFunctionData, http, WalletClient } from "viem";
-import { ApplicationStatus, ApplicationStatusType, PoolCategory } from "gitcoin-ui/checker";
-import { ProgressStatus, Step } from "gitcoin-ui";
+import { ApplicationStatus, ApplicationStatusType, PoolCategory } from "@gitcoin/ui/checker";
+import { ProgressStatus, Step } from "@gitcoin/ui/types";
 
 export const applicationStatusToNumber = (status: ApplicationStatusType): bigint => {
   switch (status) {
