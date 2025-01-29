@@ -1,4 +1,4 @@
-import { ApplicationView } from "gitcoin-ui/checker";
+import { ApplicationView } from "@gitcoin/ui/checker";
 import { useParams } from "react-router";
 
 export const ViewPage = () => {

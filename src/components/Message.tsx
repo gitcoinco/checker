@@ -1,4 +1,4 @@
-import { Button } from "gitcoin-ui";
+import { Button } from "@gitcoin/ui";
 
 interface MessageProps {
   title: string;

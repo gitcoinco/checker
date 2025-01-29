@@ -4,7 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import { Hex } from "viem";
 import { useAccount, useWalletClient } from "wagmi";
 import { submitEvaluation } from "./utils";
-import { EvaluationBody } from "gitcoin-ui/checker";
+import { EvaluationBody } from "@gitcoin/ui/checker";
 import { deterministicKeccakHash } from "@/utils/utils";
 
 export const usePerformEvaluation = () => {

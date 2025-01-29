@@ -10,8 +10,8 @@ import {
   getStrategyInstance,
   getOnchainEvaluationProgressSteps,
 } from ".";
-import { ReviewBody } from "gitcoin-ui/checker";
-import { ProgressStatus } from "gitcoin-ui";
+import { ReviewBody } from "@gitcoin/ui/checker";
+import { ProgressStatus } from "@gitcoin/ui/types";
 
 export const usePerformOnChainReview = () => {
   const [reviewBody, setReviewBody] = useState<ReviewBody | null>(null);
