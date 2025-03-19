@@ -186,13 +186,7 @@ export const waitUntilIndexerSynced = async ({
       const eventsRegistry = data?.eventsRegistry || [];
 
       if (eventsRegistry.length > 0) {
-        const currentBlockNumber = BigInt(
-          eventsRegistry.reduce(
-            (minBlock, event) =>
-              BigInt(event.blockNumber) < BigInt(minBlock) ? event.blockNumber : minBlock,
-            eventsRegistry[0].blockNumber,
-          ),
-        );
+        const currentBlockNumber = eventsRegistry[0].blockNumber;
 
         if (currentBlockNumber >= blockNumber) {
           return true;
