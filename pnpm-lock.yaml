@@ -15,8 +15,8 @@ importers:
         specifier: ^1.0.51
         version: 1.0.51(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.23.8)
       '@gitcoin/ui':
-        specifier: 0.0.0-beta.31
-        version: 0.0.0-beta.31(@storybook/addons@7.6.17(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react-dom@18.3.1)(@types/react@18.3.12)(bufferutil@4.0.8)(graphql@16.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rollup@4.28.0)(storybook@8.4.6(bufferutil@4.0.8)(prettier@3.4.1)(utf-8-validate@5.0.10))(tailwindcss@3.4.15)(typescript@5.6.3)(utf-8-validate@5.0.10)(vite@6.0.1(@types/node@20.17.9)(jiti@2.4.1)(yaml@2.6.1))
+        specifier: 0.0.0-beta.34
+        version: 0.0.0-beta.34(@storybook/addons@7.6.17(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react-dom@18.3.1)(@types/react@18.3.12)(bufferutil@4.0.8)(graphql@16.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rollup@4.28.0)(storybook@8.4.6(bufferutil@4.0.8)(prettier@3.4.1)(utf-8-validate@5.0.10))(tailwindcss@3.4.15)(typescript@5.6.3)(utf-8-validate@5.0.10)(vite@6.0.1(@types/node@20.17.9)(jiti@2.4.1)(yaml@2.6.1))
       '@rainbow-me/rainbowkit':
         specifier: ^2.2.0
         version: 2.2.0(@tanstack/react-query@5.62.0(react@18.3.1))(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(viem@2.21.53(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.23.8))(wagmi@2.13.2(@tanstack/query-core@5.62.0)(@tanstack/react-query@5.62.0(react@18.3.1))(@types/react@18.3.12)(bufferutil@4.0.8)(react@18.3.1)(typescript@5.6.3)(utf-8-validate@5.0.10)(viem@2.21.53(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.23.8))(zod@3.23.8))
@@ -661,8 +661,8 @@ packages:
     peerDependencies:
       typescript: ^5.0.0
 
-  '@gitcoin/ui@0.0.0-beta.31':
-    resolution: {integrity: sha512-wC0jYwIr2bAaFOXlF3SoBcBalv5CgVcW0zWqp9PzvTAf5VbBcJctYptXtFWFIzExSPURIQnDKT12kskeqZot2g==}
+  '@gitcoin/ui@0.0.0-beta.34':
+    resolution: {integrity: sha512-CPwW1SWpqTEu/f5JjlvmaaFDN4ICkcMYKpe9fEFRfKYWJybaykbZvt7++pvHF7d8OF4BylWnUXdN/GXzgEBCRA==}
     peerDependencies:
       react: 18.3.1
       react-dom: 18.3.1
@@ -3113,6 +3113,9 @@ packages:
 
   decimal.js-light@2.5.1:
     resolution: {integrity: sha512-qIMFpTMZmny+MMIitAB6D7iVPEorVw6YQRWkvarTkT4tBeSLLiHzcwj6q0MmYSFCiVpiqPJTJEYIrpcPzVEIvg==}
+
+  decimal.js@10.5.0:
+    resolution: {integrity: sha512-8vDa8Qxvr/+d94hSh5P3IJwI5t8/c0KsMp+g8bNw9cY2icONa5aPfvKeieW1WlG0WQYwwhJ7mjui2xtiePQSXw==}
 
   decode-named-character-reference@1.0.2:
     resolution: {integrity: sha512-O8x12RzrUF8xyVcY0KJowWsmaJxQbmy0/EtnNtHRpsOcT7dFk5W598coHqBVpmWo1oQQfsCqfCmkZN5DJrZVdg==}
@@ -6602,7 +6605,7 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@gitcoin/ui@0.0.0-beta.31(@storybook/addons@7.6.17(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react-dom@18.3.1)(@types/react@18.3.12)(bufferutil@4.0.8)(graphql@16.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rollup@4.28.0)(storybook@8.4.6(bufferutil@4.0.8)(prettier@3.4.1)(utf-8-validate@5.0.10))(tailwindcss@3.4.15)(typescript@5.6.3)(utf-8-validate@5.0.10)(vite@6.0.1(@types/node@20.17.9)(jiti@2.4.1)(yaml@2.6.1))':
+  '@gitcoin/ui@0.0.0-beta.34(@storybook/addons@7.6.17(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react-dom@18.3.1)(@types/react@18.3.12)(bufferutil@4.0.8)(graphql@16.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rollup@4.28.0)(storybook@8.4.6(bufferutil@4.0.8)(prettier@3.4.1)(utf-8-validate@5.0.10))(tailwindcss@3.4.15)(typescript@5.6.3)(utf-8-validate@5.0.10)(vite@6.0.1(@types/node@20.17.9)(jiti@2.4.1)(yaml@2.6.1))':
     dependencies:
       '@gitcoin/gitcoin-chain-data': 1.0.51(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.23.8)
       '@heroicons/react': 1.0.6(react@18.3.1)
@@ -6640,6 +6643,7 @@ snapshots:
       '@uiw/react-markdown-preview': 5.1.3(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@uiw/react-md-editor': 4.0.5(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       cmdk: 1.0.0(@types/react-dom@18.3.1)(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      decimal.js: 10.5.0
       embla-carousel-react: 8.5.1(react@18.3.1)
       graphql-request: 7.1.2(graphql@16.9.0)
       idb: 8.0.1
@@ -9640,6 +9644,8 @@ snapshots:
   decamelize@4.0.0: {}
 
   decimal.js-light@2.5.1: {}
+
+  decimal.js@10.5.0: {}
 
   decode-named-character-reference@1.0.2:
     dependencies:
