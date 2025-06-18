@@ -2,7 +2,7 @@
 
 import { EvaluationBody, SyncPoolBody } from "@gitcoin/ui/checker";
 
-export const CHECKER_ENDPOINT = "https://api.checker.gitcoin.co";
+export const CHECKER_ENDPOINT = "https://checker-api-production.up.railway.app";
 
 export async function submitEvaluation(
   evaluationBody: EvaluationBody,
